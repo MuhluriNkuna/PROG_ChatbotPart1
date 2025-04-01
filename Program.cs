@@ -34,9 +34,9 @@ namespace CybersecurityChatbot
 
                 // Ask the user for input
                 Console.WriteLine("\nWhat would you like to learn about today?");
-                Console.WriteLine("1. Password Safety");
-                Console.WriteLine("2. Phishing Attacks");
-                Console.WriteLine("3. Safe Browsing Tips");
+                Console.WriteLine("1. Password Safety:");
+                Console.WriteLine("2. Phishing Attacks:");
+                Console.WriteLine("3. Safe Browsing Tips:");
                 Console.WriteLine("4. Exit");
                 Console.Write("Choose an option (1-4): ");
                 string userChoice = Console.ReadLine();
