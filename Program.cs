@@ -101,11 +101,11 @@ namespace CybersecurityChatbot
         static void DisplayAsciiLogo()
         {
             string asciiLogo = @"
-   CCCCC    Y   Y   BBBBB     EEEEE    RRRRR    X     X  
-  C          Y Y    B    B    E        R   R     X   X 
-  C           Y     BBBBB     EEEE     RRRRR       X         
-  C           Y     B    B    E        R   R      X X    
-   CCCCC      Y     BBBBB     EEEEE    R    R   X     X 
+   CCCCC    Y   Y   BBBBB     EEEEE    RRRRR     X     X  
+  C          Y Y    B    B    E        R   R      X   X 
+  C           Y     BBBBB     EEEE     RRRRR        X         
+  C           Y     B    B    E        R   R       X X    
+   CCCCC      Y     BBBBB     EEEEE    R    R    X     X 
 ";
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(asciiLogo);
