@@ -204,6 +204,7 @@ namespace CybersecurityChatbot
             Console.WriteLine("- Be cautious of Wi-Fi networks that do not require a password.");
             Console.WriteLine("- Always log out of any accounts you access on public networks.");
             Console.ResetColor();
+
         }
 
         static void DisplayIdentifyingScamsTips()
