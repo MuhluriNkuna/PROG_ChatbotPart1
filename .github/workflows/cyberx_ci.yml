@@ -1,0 +1,30 @@
+name: CyberAwarenessBot CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: windows-latest # Uses Windows runner since MSBuild is required
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1
+
+      - name: Restore NuGet Packages
+        run: nuget restore CyberAwarenessBot.sln
+
+      - name: Check Code Formatting
+        run: dotnet format --verify-no-changes CyberAwarenessBot.sln || exit 1
+
+      - name: Build Project
+        run: msbuild CyberAwarenessBot.sln /p:Configuration=Release
