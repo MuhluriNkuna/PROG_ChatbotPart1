@@ -12,33 +12,49 @@ namespace CybersecurityChatbot
             // Display the CyberX ASCII logo
             DisplayAsciiLogo();
 
-            // Play the voice greeting
-            DisplayVoiceGreeting();
+            // Play the voice greeting and display the greeting with typing effect
+            Thread soundThread = new Thread(PlayVoiceGreeting);
+            soundThread.Start(); // Start playing the sound
 
-            // Greet the user and ask for their name
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("\nHello, welcome to CyberX – How can I help you?");
-            Console.Write("Please enter your name: ");
+            SimulateTyping("\nHello, welcome to CyberX! I'm here to help you stay safe online.", 50);
+            soundThread.Join(); // Ensure the sound finishes playing before proceeding
+
+            // Ask if the user would like help
+            Console.Write("\nWould you like me to help you? (yes/no): ");
+            string helpResponse = Console.ReadLine().Trim().ToLower();
+
+            if (helpResponse != "yes")
+            {
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                SimulateTyping("\nAlright! If you ever need assistance, feel free to return. Stay safe online!", 50);
+                Console.ResetColor();
+                return;
+            }
+
+            // Ask for the user's name
+            Console.Write("\nPlease enter your name: ");
             string userName = Console.ReadLine();
 
             // Personalize the greeting
-            Console.WriteLine($"\nHello, {userName}! I'm here to help you stay safe online. Let's get started!");
+            SimulateTyping($"\nHello, {userName}! I'm here to help you stay safe online. Let's get started!", 50);
             Console.ResetColor();
 
             // Main conversation loop
             bool continueChat = true;
             while (continueChat)
             {
-                // Clear the screen for a fresh look each time
-                Console.Clear();
+                Console.Clear(); // Clear the screen for a fresh look each time
 
-                // Ask the user for input
+                // Expanded user options
                 Console.WriteLine("\nWhat would you like to learn about today?");
-                Console.WriteLine("1. Password Safety:");
-                Console.WriteLine("2. Phishing Attacks:");
-                Console.WriteLine("3. Safe Browsing Tips:");
-                Console.WriteLine("4. Exit");
-                Console.Write("Choose an option (1-4): ");
+                Console.WriteLine("1. Password Safety");
+                Console.WriteLine("2. Phishing Attacks");
+                Console.WriteLine("3. Safe Browsing Tips");
+                Console.WriteLine("4. Social Media Security");
+                Console.WriteLine("5. Public Wi-Fi Risks");
+                Console.WriteLine("6. Identifying Scams");
+                Console.WriteLine("7. Exit");
+                Console.Write("Choose an option (1-7): ");
                 string userChoice = Console.ReadLine();
 
                 // Respond based on user choice
@@ -54,19 +70,28 @@ namespace CybersecurityChatbot
                         DisplaySafeBrowsingTips();
                         break;
                     case "4":
+                        DisplaySocialMediaSecurityTips();
+                        break;
+                    case "5":
+                        DisplayPublicWiFiRisks();
+                        break;
+                    case "6":
+                        DisplayIdentifyingScamsTips();
+                        break;
+                    case "7":
                         continueChat = false;
                         Console.ForegroundColor = ConsoleColor.Magenta;
-                        Console.WriteLine("\nThank you for chatting with CyberX! Stay safe online.");
+                        SimulateTyping("\nThank you for chatting with CyberX! Stay safe online.", 50);
                         Console.ResetColor();
                         break;
                     default:
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Oops! I didn't quite understand that. Please choose a number between 1 and 4.");
+                        SimulateTyping("Oops! I didn't quite understand that. Please choose a number between 1 and 7.", 50);
                         Console.ResetColor();
                         break;
                 }
 
-                // Pause and wait for the user to press any key before continuing
+                // Pause before continuing
                 if (continueChat)
                 {
                     Console.WriteLine("\nPress any key to continue...");
@@ -75,16 +100,16 @@ namespace CybersecurityChatbot
             }
         }
 
-        static void DisplayVoiceGreeting()
+        static void PlayVoiceGreeting()
         {
             try
             {
-                string audioFilePath = "welcome.wav"; // Ensure the file exists or use an absolute path
+                string audioFilePath = "welcome.wav"; // Ensure the file exists
 
                 if (File.Exists(audioFilePath))
                 {
                     SoundPlayer soundPlayer = new SoundPlayer(audioFilePath);
-                    soundPlayer.PlaySync();
+                    soundPlayer.PlaySync(); // Play synchronously to avoid overlapping
                 }
                 else
                 {
@@ -98,9 +123,19 @@ namespace CybersecurityChatbot
             }
         }
 
+        static void SimulateTyping(string message, int delay)
+        {
+            foreach (char c in message)
+            {
+                Console.Write(c);
+                Thread.Sleep(delay); // Small delay for typing effect
+            }
+            Console.WriteLine();
+        }
+
         static void DisplayAsciiLogo()
         {
-            string asciiLogo = @"
+            string asciiLogo = @" 
    CCCCC    Y   Y   BBBBB     EEEEE    RRRRR     X     X  
   C          Y Y    B    B    E        R   R      X   X 
   C           Y     BBBBB     EEEE     RRRRR        X         
@@ -117,7 +152,7 @@ namespace CybersecurityChatbot
         static void DisplayPasswordSafetyTips()
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\nPassword Safety Tips:");
+            SimulateTyping("\nPassword Safety Tips:", 50);
             Console.WriteLine("- Use at least 12 characters (longer passwords are better).");
             Console.WriteLine("- Include numbers, symbols, and both uppercase and lowercase letters.");
             Console.WriteLine("- Don't reuse passwords across multiple sites.");
@@ -128,7 +163,7 @@ namespace CybersecurityChatbot
         static void DisplayPhishingTips()
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\nPhishing Attack Tips:");
+            SimulateTyping("\nPhishing Attack Tips:", 50);
             Console.WriteLine("- Be cautious of unsolicited emails and messages asking for personal information.");
             Console.WriteLine("- Verify the sender's email address carefully.");
             Console.WriteLine("- Avoid clicking on links in suspicious emails, especially if they seem urgent.");
@@ -139,11 +174,47 @@ namespace CybersecurityChatbot
         static void DisplaySafeBrowsingTips()
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\nSafe Browsing Tips:");
+            SimulateTyping("\nSafe Browsing Tips:", 50);
             Console.WriteLine("- Use HTTPS websites for secure browsing (look for the padlock symbol).");
             Console.WriteLine("- Avoid downloading files or clicking on pop-up ads from unknown sources.");
             Console.WriteLine("- Keep your browser and antivirus software up-to-date.");
             Console.WriteLine("- Always log out of your accounts when you’re done, especially on public computers.");
+            Console.ResetColor();
+        }
+
+        static void DisplaySocialMediaSecurityTips()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            SimulateTyping("\nSocial Media Security Tips:", 50);
+            Console.WriteLine("- Keep your accounts private and limit who can see your posts.");
+            Console.WriteLine("- Avoid sharing sensitive personal information online.");
+            Console.WriteLine("- Use strong, unique passwords for each social media platform.");
+            Console.WriteLine("- Be cautious when accepting friend requests from strangers.");
+            Console.WriteLine("- Enable two-factor authentication (2FA) for added security.");
+            Console.ResetColor();
+        }
+
+        static void DisplayPublicWiFiRisks()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            SimulateTyping("\nPublic Wi-Fi Risks:", 50);
+            Console.WriteLine("- Avoid accessing sensitive accounts (like banking) on public Wi-Fi.");
+            Console.WriteLine("- Use a VPN (Virtual Private Network) for secure browsing.");
+            Console.WriteLine("- Turn off automatic Wi-Fi connections to prevent connecting to unsafe networks.");
+            Console.WriteLine("- Be cautious of Wi-Fi networks that do not require a password.");
+            Console.WriteLine("- Always log out of any accounts you access on public networks.");
+            Console.ResetColor();
+        }
+
+        static void DisplayIdentifyingScamsTips()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            SimulateTyping("\nTips for Identifying Scams:", 50);
+            Console.WriteLine("- Be skeptical of deals that seem too good to be true.");
+            Console.WriteLine("- Never share personal or financial information with unknown contacts.");
+            Console.WriteLine("- Look for poor grammar and spelling mistakes in scam messages.");
+            Console.WriteLine("- Verify the authenticity of websites before making purchases.");
+            Console.WriteLine("- Do not click on unknown links sent via email or social media.");
             Console.ResetColor();
         }
     }
