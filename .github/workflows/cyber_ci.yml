@@ -1,0 +1,32 @@
+name:PROG_ChatbotPart1 CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensures all files are pulled
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1
+
+      - name: Restore NuGet Packages
+        run: nuget restore PROG_ChatbotPart1.sln # Update path if needed
+
+      - name: Check Code Formatting
+        run: dotnet format --verify-no-changes PROG_ChatbotPart1.sln || exit 1
+
+      - name: Build Project
+        run: msbuild PROG_ChatbotPart1.sln /p:Configuration=Release
